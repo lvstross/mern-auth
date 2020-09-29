@@ -8,6 +8,8 @@ const fetch = require('node-fetch');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+
+// Signup without email verification
 const signup = (req, res) => {
     console.log('REQ BODY ON SIGNUP', req.body);
     const { name, email, password } = req.body;
@@ -35,6 +37,7 @@ const signup = (req, res) => {
     });
 };
 
+// Email Verification Signup
 // exports.signup = (req, res) => {
 //     const { name, email, password } = req.body;
 
@@ -138,9 +141,7 @@ const signin = (req, res) => {
     });
 };
 
-const requireSignin = expressJwt({
-    secret: process.env.JWT_SECRET // req.user._id
-});
+const requireSignin = expressJwt({ secret: process.env.JWT_SECRET });
 
 const adminMiddleware = (req, res, next) => {
     User.findById({ _id: req.user._id }).exec((err, user) => {
@@ -198,13 +199,11 @@ const forgotPassword = (req, res) => {
                 sgMail
                     .send(emailData)
                     .then(sent => {
-                        // console.log('SIGNUP EMAIL SENT', sent)
                         return res.json({
                             message: `Email has been sent to ${email}. Follow the instruction to activate your account`
                         });
                     })
                     .catch(err => {
-                        // console.log('SIGNUP EMAIL SENT ERROR', err)
                         return res.json({
                             message: err.message
                         });
@@ -259,7 +258,6 @@ const googleLogin = (req, res) => {
     const { idToken } = req.body;
 
     client.verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID }).then(response => {
-        // console.log('GOOGLE LOGIN RESPONSE',response)
         const { email_verified, name, email } = response.payload;
         if (email_verified) {
             User.findOne({ email }).exec((err, user) => {
@@ -308,7 +306,6 @@ const facebookLogin = (req, res) => {
             method: 'GET'
         })
             .then(response => response.json())
-            // .then(response => console.log(response))
             .then(response => {
                 const { email, name } = response;
                 User.findOne({ email }).exec((err, user) => {

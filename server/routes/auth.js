@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
-// import controller
 const {
     signup,
     accountActivation,
@@ -11,8 +9,6 @@ const {
     googleLogin,
     facebookLogin
 } = require('../controllers/auth');
-
-// import validators
 const {
     userSignupValidator,
     userSigninValidator,
@@ -21,13 +17,14 @@ const {
 } = require('../validators/auth');
 const { runValidation } = require('../validators');
 
+// Auth Routes
 router.post('/signup', userSignupValidator, runValidation, signup);
 router.post('/account-activation', accountActivation);
 router.post('/signin', userSigninValidator, runValidation, signin);
-// forgot reset password
+// Forgot & Reset Password
 router.put('/forgot-password', forgotPasswordValidator, runValidation, forgotPassword);
 router.put('/reset-password', resetPasswordValidator, runValidation, resetPassword);
-// google and facebook
+// Google & Facebook
 router.post('/google-login', googleLogin);
 router.post('/facebook-login', facebookLogin);
 
