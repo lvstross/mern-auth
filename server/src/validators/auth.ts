@@ -1,6 +1,6 @@
-const { check } = require('express-validator');
+import { check } from 'express-validator';
 
-const userSignupValidator = [
+export const userSignupValidator = [
     check('name')
         .not()
         .isEmpty()
@@ -13,7 +13,7 @@ const userSignupValidator = [
         .withMessage('Password must be at least  6 characters long')
 ];
 
-const userSigninValidator = [
+export const userSigninValidator = [
     check('email')
         .isEmail()
         .withMessage('Must be a valid email address'),
@@ -22,7 +22,7 @@ const userSigninValidator = [
         .withMessage('Password must be at least  6 characters long')
 ];
 
-const forgotPasswordValidator = [
+export const forgotPasswordValidator = [
     check('email')
         .not()
         .isEmpty()
@@ -30,17 +30,10 @@ const forgotPasswordValidator = [
         .withMessage('Must be a valid email address')
 ];
 
-const resetPasswordValidator = [
+export const resetPasswordValidator = [
     check('newPassword')
         .not()
         .isEmpty()
         .isLength({ min: 6 })
         .withMessage('Password must be at least  6 characters long')
 ];
-
-module.exports = {
-    userSignupValidator,
-    userSigninValidator,
-    forgotPasswordValidator,
-    resetPasswordValidator    
-}

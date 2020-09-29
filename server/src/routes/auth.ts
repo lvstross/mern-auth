@@ -1,6 +1,5 @@
-const express = require('express');
-const router = express.Router();
-const {
+import express from 'express';
+import {
     signup,
     accountActivation,
     signin,
@@ -8,15 +7,16 @@ const {
     resetPassword,
     googleLogin,
     facebookLogin
-} = require('../controllers/auth');
-const {
+} from '../controllers/auth';
+import {
     userSignupValidator,
     userSigninValidator,
     forgotPasswordValidator,
     resetPasswordValidator
-} = require('../validators/auth');
-const { runValidation } = require('../validators');
+} from '../validators/auth';
+import { runValidation } from '../validators';
 
+const router = express.Router();
 // Auth Routes
 router.post('/signup', userSignupValidator, runValidation, signup);
 router.post('/account-activation', accountActivation);
@@ -28,4 +28,4 @@ router.put('/reset-password', resetPasswordValidator, runValidation, resetPasswo
 router.post('/google-login', googleLogin);
 router.post('/facebook-login', facebookLogin);
 
-module.exports = router;
+export default router;

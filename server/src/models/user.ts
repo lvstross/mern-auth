@@ -1,8 +1,27 @@
-const mongoose = require('mongoose');
-const crypto = require('crypto');
+import mongoose, { Schema, Document } from 'mongoose';
+import crypto from 'crypto';
 
+interface UserMethods {
+    authenticate: Function;
+    encryptPassword: Function;
+    makeSalt: Function;
+}
 
-const userScheama = new mongoose.Schema(
+interface VirtualUserProps {
+    password: string;
+    _password: string;
+}
+
+export interface IUser extends VirtualUserProps, UserMethods, Document {
+    name: string;
+    email: string;
+    hashed_password: string;
+    salt: string;
+    role: string;
+    resetPasswordLink: string;
+}
+
+const UserSchema: Schema = new Schema(
     {
         name: {
             type: String,
@@ -35,24 +54,23 @@ const userScheama = new mongoose.Schema(
 );
 
 // Virtual
-userScheama
+UserSchema
     .virtual('password')
-    .set(function(password) {
+    .set(function(this: IUser & { _password: string, makeSalt: Function, encryptPassword: Function }, password: string) {
         this._password = password;
         this.salt = this.makeSalt();
         this.hashed_password = this.encryptPassword(password);
     })
-    .get(function() {
+    .get(function(this: { _password: string }) {
         return this._password;
     });
 
 // Methods
-userScheama.methods = {
-    authenticate: function(plainText) {
+UserSchema.methods = {
+    authenticate: function(plainText: string) {
         return this.encryptPassword(plainText) === this.hashed_password;
     },
-
-    encryptPassword: function(password) {
+    encryptPassword: function(password: string) {
         if (!password) return '';
         try {
             return crypto
@@ -63,10 +81,9 @@ userScheama.methods = {
             return '';
         }
     },
-
     makeSalt: function() {
         return Math.round(new Date().valueOf() * Math.random()) + '';
     }
 };
 
-module.exports = mongoose.model('User', userScheama);
+export default mongoose.model<IUser>('User', UserSchema);

@@ -1,24 +1,25 @@
-const User = require('../models/user');
+import { Error } from 'mongoose';
+import { Request, Response } from 'express';
+import User, { IUser } from '../models/user';
 
-exports.read = (req, res) => {
+export const read = (req: Request, res: Response) => {
     const userId = req.params.id;
-    User.findById(userId).exec((err, user) => {
+    User.findById(userId).exec((err, user: IUser): Response => {
         if (err || !user) {
             return res.status(400).json({
                 error: 'User not found'
             });
         }
-        user.hashed_password = undefined;
-        user.salt = undefined;
-        res.json(user);
+        user.hashed_password = '';
+        user.salt = '';
+        return res.json(user);
     });
 };
 
-exports.update = (req, res) => {
-    // console.log('UPDATE USER - req.user', req.user, 'UPDATE DATA', req.body);
+export const update = (req: any, res: any) => {
     const { name, password } = req.body;
 
-    User.findOne({ _id: req.user._id }, (err, user) => {
+    User.findOne({ _id: req.user._id }, (err, user: IUser) => {
         if (err || !user) {
             return res.status(400).json({
                 error: 'User not found'
@@ -49,9 +50,9 @@ exports.update = (req, res) => {
                     error: 'User update failed'
                 });
             }
-            updatedUser.hashed_password = undefined;
-            updatedUser.salt = undefined;
-            res.json(updatedUser);
+            updatedUser.hashed_password = '';
+            updatedUser.salt = '';
+            return res.json(updatedUser);
         });
     });
 };

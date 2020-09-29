@@ -1,44 +1,47 @@
-const User = require('../models/user');
-const jwt = require('jsonwebtoken');
-const expressJwt = require('express-jwt');
-const _ = require('lodash');
-const { OAuth2Client } = require('google-auth-library');
-const fetch = require('node-fetch');
-// sendgrid
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+import 'dotenv/config'
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import expressJwt from 'express-jwt';
+import * as _ from 'lodash';
+import { OAuth2Client } from 'google-auth-library';
+import fetch from 'node-fetch';
+import sgMail from '@sendgrid/mail';
+import User, { IUser } from '../models/user';
+import { NativeError } from 'mongoose';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 
 // Signup without email verification
-const signup = (req, res) => {
+export const signup = (req: Request, res: Response): void => {
     console.log('REQ BODY ON SIGNUP', req.body);
     const { name, email, password } = req.body;
 
-    User.findOne({ email }).exec((err, user) => {
+    User.findOne({ email }).exec((_: NativeError, user: IUser) => {
         if (user) {
             return res.status(400).json({
                 error: 'Email is taken'
             });
         }
+        return;
     });
 
     let newUser = new User({ name, email, password });
 
-    newUser.save((err, success) => {
+    newUser.save((err) => {
         if (err) {
-            console.log('SIGNUP ERROR', err);
             return res.status(400).json({
                 error: err
             });
         }
-        res.json({
+        return res.json({
             message: 'Signup success! Please signin'
         });
     });
 };
 
 // Email Verification Signup
-// exports.signup = (req, res) => {
+// export const signup = (req: Request, res: Response) => {
 //     const { name, email, password } = req.body;
 
 //     User.findOne({ email }).exec((err, user) => {
@@ -80,23 +83,25 @@ const signup = (req, res) => {
 //     });
 // };
 
-const accountActivation = (req, res) => {
+// @ts-ignore
+export const accountActivation = (req: Request, res: Response) => {
     const { token } = req.body;
 
     if (token) {
-        jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, function(err, decoded) {
+        // @ts-ignore
+        jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION!, (err: any) => {
             if (err) {
                 console.log('JWT VERIFY IN ACCOUNT ACTIVATION ERROR', err);
                 return res.status(401).json({
                     error: 'Expired link. Signup again'
                 });
             }
-
+            // @ts-ignore
             const { name, email, password } = jwt.decode(token);
 
             const user = new User({ name, email, password });
 
-            user.save((err, user) => {
+            user.save((err) => {
                 if (err) {
                     console.log('SAVE USER IN ACCOUNT ACTIVATION ERROR', err);
                     return res.status(401).json({
@@ -115,7 +120,7 @@ const accountActivation = (req, res) => {
     }
 };
 
-const signin = (req, res) => {
+export const signin = (req: Request, res: Response) => {
     const { email, password } = req.body;
     // check if user exist
     User.findOne({ email }).exec((err, user) => {
@@ -131,7 +136,7 @@ const signin = (req, res) => {
             });
         }
         // generate a token and send to client
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
         const { _id, name, email, role } = user;
 
         return res.json({
@@ -141,9 +146,10 @@ const signin = (req, res) => {
     });
 };
 
-const requireSignin = expressJwt({ secret: process.env.JWT_SECRET });
+export const requireSignin = expressJwt({ secret: process.env.JWT_SECRET! });
 
-const adminMiddleware = (req, res, next) => {
+export const adminMiddleware = (req: Request, res: Response, next: NextFunction) => {
+    // @ts-ignore
     User.findById({ _id: req.user._id }).exec((err, user) => {
         if (err || !user) {
             return res.status(400).json({
@@ -156,13 +162,13 @@ const adminMiddleware = (req, res, next) => {
                 error: 'Admin resource. Access denied.'
             });
         }
-
+        // @ts-ignore
         req.profile = user;
-        next();
+        return next();
     });
 };
 
-const forgotPassword = (req, res) => {
+export const forgotPassword = (req: Request, res:Response) => {
     const { email } = req.body;
 
     User.findOne({ email }, (err, user) => {
@@ -172,7 +178,7 @@ const forgotPassword = (req, res) => {
             });
         }
 
-        const token = jwt.sign({ _id: user._id, name: user.name }, process.env.JWT_RESET_PASSWORD, {
+        const token = jwt.sign({ _id: user._id, name: user.name }, process.env.JWT_RESET_PASSWORD!, {
             expiresIn: '10m'
         });
 
@@ -188,8 +194,8 @@ const forgotPassword = (req, res) => {
                 <p>${process.env.CLIENT_URL}</p>
             `
         };
-
-        return user.updateOne({ resetPasswordLink: token }, (err, success) => {
+        // @ts-ignore
+        return user.updateOne({ resetPasswordLink: token }, (err, _) => {
             if (err) {
                 console.log('RESET PASSWORD LINK ERROR', err);
                 return res.status(400).json({
@@ -197,8 +203,9 @@ const forgotPassword = (req, res) => {
                 });
             } else {
                 sgMail
+                    // @ts-ignore
                     .send(emailData)
-                    .then(sent => {
+                    .then(_ => {
                         return res.json({
                             message: `Email has been sent to ${email}. Follow the instruction to activate your account`
                         });
@@ -213,17 +220,18 @@ const forgotPassword = (req, res) => {
     });
 };
 
-const resetPassword = (req, res) => {
+export const resetPassword = (req: Request, res: Response) => {
     const { resetPasswordLink, newPassword } = req.body;
 
     if (resetPasswordLink) {
-        jwt.verify(resetPasswordLink, process.env.JWT_RESET_PASSWORD, function(err, decoded) {
+        // @ts-ignore
+        jwt.verify(resetPasswordLink, process.env.JWT_RESET_PASSWORD!, function(err: any) {
             if (err) {
                 return res.status(400).json({
                     error: 'Expired link. Try again'
                 });
             }
-
+            // @ts-ignore
             User.findOne({ resetPasswordLink }, (err, user) => {
                 if (err || !user) {
                     return res.status(400).json({
@@ -238,13 +246,13 @@ const resetPassword = (req, res) => {
 
                 user = _.extend(user, updatedFields);
 
-                user.save((err, result) => {
+                user.save((err, _) => {
                     if (err) {
                         return res.status(400).json({
                             error: 'Error resetting user password'
                         });
                     }
-                    res.json({
+                    return res.json({
                         message: `Great! Now you can login with your new password`
                     });
                 });
@@ -253,16 +261,18 @@ const resetPassword = (req, res) => {
     }
 };
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-const googleLogin = (req, res) => {
+export const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+export const googleLogin = (req: Request, res: Response) => {
     const { idToken } = req.body;
-
+    // @ts-ignore
     client.verifyIdToken({ idToken, audience: process.env.GOOGLE_CLIENT_ID }).then(response => {
+        // @ts-ignore
         const { email_verified, name, email } = response.payload;
         if (email_verified) {
-            User.findOne({ email }).exec((err, user) => {
+            // @ts-ignore
+            User.findOne({ email }).exec((err: NativeError, user: IUser) => {
                 if (user) {
-                    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
                     const { _id, email, name, role } = user;
                     return res.json({
                         token,
@@ -278,7 +288,7 @@ const googleLogin = (req, res) => {
                                 error: 'User signup failed with google'
                             });
                         }
-                        const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                        const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
                         const { _id, email, name, role } = data;
                         return res.json({
                             token,
@@ -295,7 +305,7 @@ const googleLogin = (req, res) => {
     });
 };
 
-const facebookLogin = (req, res) => {
+export const facebookLogin = (req: Request, res: Response) => {
     console.log('FACEBOOK LOGIN REQ BODY', req.body);
     const { userID, accessToken } = req.body;
 
@@ -308,9 +318,10 @@ const facebookLogin = (req, res) => {
             .then(response => response.json())
             .then(response => {
                 const { email, name } = response;
+                // @ts-ignore
                 User.findOne({ email }).exec((err, user) => {
                     if (user) {
-                        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
                         const { _id, email, name, role } = user;
                         return res.json({
                             token,
@@ -326,7 +337,7 @@ const facebookLogin = (req, res) => {
                                     error: 'User signup failed with facebook'
                                 });
                             }
-                            const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                            const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET!, { expiresIn: '7d' });
                             const { _id, email, name, role } = data;
                             return res.json({
                                 token,
@@ -336,22 +347,10 @@ const facebookLogin = (req, res) => {
                     }
                 });
             })
-            .catch(error => {
+            .catch(_ => {
                 res.json({
                     error: 'Facebook login failed. Try later'
                 });
             })
     );
 };
-
-module.exports = {
-    signup,
-    signin,
-    accountActivation,
-    requireSignin,
-    adminMiddleware,
-    forgotPassword,
-    resetPassword,
-    googleLogin,
-    facebookLogin
-}

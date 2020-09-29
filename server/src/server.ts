@@ -1,17 +1,17 @@
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-require('dotenv').config();
+import 'dotenv/config'
+import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import authRoutes from './routes/auth';
+import userRoutes from './routes/user';
 
 const app = express();
 
 // DB
 mongoose
-    .connect(process.env.DATABASE, {
+    .connect(process.env.DATABASE!, {
         useNewUrlParser: true,
         useFindAndModify: false,
         useUnifiedTopology: true,
