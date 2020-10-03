@@ -10,15 +10,14 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 const Signin = ({ history }) => {
     const [values, setValues] = useState({
-        email: 'kaloraatjs@gmail.com',
-        password: 'rrrrrr',
+        email: 'levi@email.com',
+        password: 'Asdfghjkl11!',
         buttonText: 'Submit'
     });
 
     const { email, password, buttonText } = values;
 
     const handleChange = name => event => {
-        // console.log(event.target.value);
         setValues({ ...values, [name]: event.target.value });
     };
 
@@ -37,8 +36,6 @@ const Signin = ({ history }) => {
             data: { email, password }
         })
             .then(response => {
-                console.log('SIGNIN SUCCESS', response);
-                // save the response (user, token) localstorage/cookie
                 authenticate(response, () => {
                     setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
                     toast.success(`Hey ${response.data.user.name}, Welcome back!`);
@@ -46,9 +43,8 @@ const Signin = ({ history }) => {
                 });
             })
             .catch(error => {
-                console.log('SIGNIN ERROR', error);
                 setValues({ ...values, buttonText: 'Submit' });
-                // toast.error(error.data.error);
+                toast.error('Sorry! We got an error.');
             });
     };
 

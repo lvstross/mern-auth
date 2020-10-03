@@ -6,8 +6,7 @@ import Signin from './auth/Signin';
 import Activate from './auth/Activate';
 import Private from './core/Private';
 import Admin from './core/Admin';
-import PrivateRoute from './auth/PrivateRoute';
-import AdminRoute from './auth/AdminRoute';
+import AuthGuardRoute from './auth/AuthGuardRoute';
 import Forgot from './auth/Forgot';
 import Reset from './auth/Reset';
 
@@ -19,8 +18,8 @@ const Routes = () => {
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/signin" exact component={Signin} />
                 <Route path="/auth/activate/:token" exact component={Activate} />
-                <PrivateRoute path="/private" exact component={Private} />
-                <AdminRoute path="/admin" exact component={Admin} />
+                <AuthGuardRoute path="/private" exact role="subscriber" component={Private} />
+                <AuthGuardRoute path="/admin" exact role="admin" component={Admin} />
                 <Route path="/auth/password/forgot" exact component={Forgot} />
                 <Route path="/auth/password/reset/:token" exact component={Reset} />
             </Switch>

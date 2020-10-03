@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from './core/Layout';
+import { Counter } from './features/counter/Counter';
 
 const App = () => {
     return (
@@ -7,6 +8,7 @@ const App = () => {
             <div className="col-md-6 offset-md-3 text-center">
                 <h1 className="p-5">React Node MongoDB Authentication Boilerplate</h1>
                 <h2>MERN STACK</h2>
+                <Counter />
                 <hr />
                 <p className="lead">
                     MERN stack login register system with account activation, forgot password, reset password, login
