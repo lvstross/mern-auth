@@ -41,14 +41,14 @@ const Signin = ({ history }) => {
                 // save the response (user, token) localstorage/cookie
                 authenticate(response, () => {
                     setValues({ ...values, name: '', email: '', password: '', buttonText: 'Submitted' });
-                    // toast.success(`Hey ${response.data.user.name}, Welcome back!`);
+                    toast.success(`Hey ${response.data.user.name}, Welcome back!`);
                     isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private');
                 });
             })
             .catch(error => {
-                console.log('SIGNIN ERROR', error.response.data);
+                console.log('SIGNIN ERROR', error);
                 setValues({ ...values, buttonText: 'Submit' });
-                toast.error(error.response.data.error);
+                // toast.error(error.data.error);
             });
     };
 

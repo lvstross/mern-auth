@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { isAuth } from './helpers';
 
-const AdminRoute = ({ component, ...rest }) => (
+const AdminRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
         render={props =>
