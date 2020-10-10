@@ -24,14 +24,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/todo",
-							"protocol": "http",
+							"raw": "{{HOST_API}}/todo",
 							"host": [
-								"localhost"
+								"{{HOST_API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"todo"
 							]
 						}
@@ -63,14 +60,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/todo",
-							"protocol": "http",
+							"raw": "{{HOST_API}}/todo",
 							"host": [
-								"localhost"
+								"{{HOST_API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"todo"
 							]
 						}
@@ -93,14 +87,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/todo/5f81e1a3be6d061dde57332a",
-							"protocol": "http",
+							"raw": "{{HOST_API}}/todo/5f81e1a3be6d061dde57332a",
 							"host": [
-								"localhost"
+								"{{HOST_API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"todo",
 								"5f81e1a3be6d061dde57332a"
 							]
@@ -133,14 +124,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/todo/5f81e1a3be6d061dde57332a",
-							"protocol": "http",
+							"raw": "{{HOST_API}}/todo/5f81e1a3be6d061dde57332a",
 							"host": [
-								"localhost"
+								"{{HOST_API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"todo",
 								"5f81e1a3be6d061dde57332a"
 							]
@@ -173,14 +161,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/todo/5f81e02cbe6d061dde573329",
-							"protocol": "http",
+							"raw": "{{HOST_API}}/todo/5f81e02cbe6d061dde573329",
 							"host": [
-								"localhost"
+								"{{HOST_API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"todo",
 								"5f81e02cbe6d061dde573329"
 							]
@@ -209,14 +194,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/signin",
-							"protocol": "http",
+							"raw": "{{HOST_API}}/signin",
 							"host": [
-								"localhost"
+								"{{HOST_API}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"signin"
 							]
 						}
