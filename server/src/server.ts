@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
+import todoRoutes from './routes/todo';
 
 const app = express();
 
@@ -29,6 +30,7 @@ if ((process.env.NODE_ENV = 'development')) {
 }
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
+app.use('/api', todoRoutes);
 
 // Listen
 const port = process.env.PORT || 8000;
