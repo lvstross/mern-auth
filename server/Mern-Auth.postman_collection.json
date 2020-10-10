@@ -6,134 +6,257 @@
 	},
 	"item": [
 		{
-			"name": "Get All Todos",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/todo",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"todo"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create One Todo",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"description\": \"Feed the cat\",\n    \"complete\": false,\n    \"color\": \"#aba\",\n    \"pinned\": true\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "todo",
+			"item": [
+				{
+					"name": "Get All Todos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc4OTE4MTU4NzlhYTRmNzViYThjYmQiLCJpYXQiOjE2MDIzNDk4NjQsImV4cCI6MTYwMjk1NDY2NH0.WGbDRS8UJJ-1dnlpb3ouiJbARXZxbeMdV_2bdrUfRo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/todo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"todo"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8000/api/todo",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"todo"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get One Todo",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/todo/5f81e02cbe6d061dde573329",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"todo",
-						"5f81e02cbe6d061dde573329"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update One Todo",
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"description\": \"something different\",\n    \"complete\": true,\n    \"color\": \"#bbb\",\n    \"pinned\": false\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Create One Todo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc4OTE4MTU4NzlhYTRmNzViYThjYmQiLCJpYXQiOjE2MDIzNDk4NjQsImV4cCI6MTYwMjk1NDY2NH0.WGbDRS8UJJ-1dnlpb3ouiJbARXZxbeMdV_2bdrUfRo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Feed the dog\",\n    \"complete\": true,\n    \"color\": \"#aba\",\n    \"pinned\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/todo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"todo"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8000/api/todo/5f81e02cbe6d061dde573329",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"todo",
-						"5f81e02cbe6d061dde573329"
-					]
+				{
+					"name": "Get One Todo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc4OTE4MTU4NzlhYTRmNzViYThjYmQiLCJpYXQiOjE2MDIzNDk4NjQsImV4cCI6MTYwMjk1NDY2NH0.WGbDRS8UJJ-1dnlpb3ouiJbARXZxbeMdV_2bdrUfRo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/todo/5f81e1a3be6d061dde57332a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"todo",
+								"5f81e1a3be6d061dde57332a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update One Todo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc4OTE4MTU4NzlhYTRmNzViYThjYmQiLCJpYXQiOjE2MDIzNDk4NjQsImV4cCI6MTYwMjk1NDY2NH0.WGbDRS8UJJ-1dnlpb3ouiJbARXZxbeMdV_2bdrUfRo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Feed the fish\",\n    \"complete\": false,\n    \"color\": \"#bbb\",\n    \"pinned\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/todo/5f81e1a3be6d061dde57332a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"todo",
+								"5f81e1a3be6d061dde57332a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete One Todo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc4OTE4MTU4NzlhYTRmNzViYThjYmQiLCJpYXQiOjE2MDIzNDk4NjQsImV4cCI6MTYwMjk1NDY2NH0.WGbDRS8UJJ-1dnlpb3ouiJbARXZxbeMdV_2bdrUfRo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/todo/5f81e02cbe6d061dde573329",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"todo",
+								"5f81e02cbe6d061dde573329"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Delete One Todo",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "auth",
+			"item": [
+				{
+					"name": "SignIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"levi@email.com\",\n    \"password\": \"Asdfghjkl11!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"signin"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8000/api/todo/5f81e02cbe6d061dde573329",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"todo",
-						"5f81e02cbe6d061dde573329"
-					]
+				{
+					"name": "Get User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc4OTE4MTU4NzlhYTRmNzViYThjYmQiLCJpYXQiOjE2MDIzNDk4NjQsImV4cCI6MTYwMjk1NDY2NH0.WGbDRS8UJJ-1dnlpb3ouiJbARXZxbeMdV_2bdrUfRo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/user/5f7891815879aa4f75ba8cbd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"5f7891815879aa4f75ba8cbd"
+							]
+						},
+						"description": "Be sure to sign in first using /signin and place the token into the auth token field"
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
